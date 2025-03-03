@@ -1,34 +1,58 @@
-div.settingsbox-export_provisioning div.boxcontent {
-	padding: 15px;	
+/* Show export_provisioning plugin script */
+
+if (window.rcmail) {
+  rcmail.addEventListener('init', function(evt) {
+    // <span id="settingstabdefault" class="tablink"><roundcube:button command="preferences" type="link" label="preferences" title="editpreferences" /></span>
+    var tab = $('<li>').attr('id', 'settingstabpluginexport_provisioning').addClass('listitem provisioning');
+
+    var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.export_provisioning').html(rcmail.gettext('export_provisioning', 'export_provisioning')).appendTo(tab);
+    button.bind('click', function(e){ return rcmail.command('plugin.export_provisioning', this) });
+
+    // add button and register command
+    rcmail.add_element(tab, 'tabs');
+    rcmail.register_command('plugin.export_provisioning', function(){ rcmail.goto_url('plugin.export_provisioning') }, true);
+  })
 }
 
+function export_provisioning_changelink(sel) {
+  var value = sel.value;
+  $('#export_provisioning_download_ios').attr("href", "./?_task=settings&_action=plugin.export_provisioning-download-ios&_identity="+value);
+  $('#export_provisioning_download_iaf').attr("href", "./?_task=settings&_action=plugin.export_provisioning-download-iaf&_identity="+value);
+}
+root@s1:/home/s1.inovasol.co/public_html/webmail/plugins/export_provisioning# nano export_provisioning.js
+root@s1:/home/s1.inovasol.co/public_html/webmail/plugins/export_provisioning# cat export_provisioning.css
+div.settingsbox-export_provisioning div.boxcontent {
+        padding: 15px;
+}
+
+.listing.iconized li.provisioning a:before {
+        content: "\f019";
+}
 
 table.export_provisioning {
-	margin: 0;
+        margin: 0;
 }
 
 
 table.export_provisioning td {
-	padding: 2px 0 6px 0;
-	vertical-align: top;
+        padding: 2px 0 6px 0;
+        vertical-align: top;
 }
 
 
 table.export_provisioning td.header {
-	font-weight: bold;
-	padding-top: 15px;
-	
+        font-weight: bold;
+        padding-top: 15px;
+
 }
 
 table.export_provisioning td.headerfirst {
-	font-weight: bold;
-	
+        font-weight: bold;
+
 }
 
 table.export_provisioning td.title {
-	padding-right: 20px;
-	white-space: nowrap;
-	
+        padding-right: 20px;
+        white-space: nowrap;
+
 }
-
-
